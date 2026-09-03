@@ -39,3 +39,5 @@ INSERT INTO temperaturas (valor_temperatura, data_hora) VALUE
 (5.43, NOW());
 
 SELECT * FROM temperaturas;
+ 
+ -- ---

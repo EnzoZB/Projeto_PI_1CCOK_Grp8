@@ -22,19 +22,17 @@
 
     <button onclick="calcularEstoque()">Calcular estoque</button>
 
-    <h2 id="resultado"></h2>
+    <div id="resultado"></div>
 
 </body>
 
 <script>
 
     function criarCampos() {
-
         let tipos = Number(ipt_tipos.value);
         let mensagem = "";
 
         for (let i = 1; i <= tipos; i++) {
-
             mensagem += `
                 <h3>Vacina ${i}</h3>
 
@@ -49,6 +47,38 @@
         }
 
         div_vacinas.innerHTML = mensagem;
+    }
+
+    function calcularEstoque() {
+        let tipos = Number(ipt_tipos.value);
+        
+        let totalQuantidade = 0;
+        let totalValor = 0;
+        let resumo = "";
+
+        for (let i = 1; i <= tipos; i++) {
+           
+            let qtd = Number(document.getElementById(`qtd_${i}`).value);
+            let valor = Number(document.getElementById(`valor_${i}`).value);
+            
+            let totalVacina = qtd * valor;
+
+           
+            totalQuantidade += qtd;
+            totalValor += totalVacina;
+
+            
+            resumo += `Vacina ${i}: ${qtd} unidades | Valor Unitário: R$ ${valor} | Total: R$ ${totalVacina}<br>`;
+        }
+
+      
+        resultado.innerHTML = `
+            <br>
+            ${resumo}
+            <br>
+            <b>Quantidade total:</b> ${totalQuantidade}<br>
+            <b>Valor total do estoque:</b> R$ ${totalValor}
+        `;
     }
 
 </script>
