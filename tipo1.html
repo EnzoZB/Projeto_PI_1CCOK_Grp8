@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Estoque</title>
+</head>
+
+<body>
+
+    <h1>Calculadora de Estoque de Vacinas</h1>
+
+    <h2>Quantos tipos de vacina você possui?</h2>
+
+    <input type="number" id="ipt_tipos">
+    <button onclick="criarCampos()">Adicionar</button>
+
+    <div id="div_vacinas"></div>
+
+    <br>
+
+    <button onclick="calcularEstoque()">Calcular estoque</button>
+
+    <h2 id="resultado"></h2>
+
+</body>
+
+<script>
+
+    function criarCampos() {
+
+        let tipos = Number(ipt_tipos.value);
+        let mensagem = "";
+
+        for (let i = 1; i <= tipos; i++) {
+
+            mensagem += `
+                <h3>Vacina ${i}</h3>
+
+                <label>Quantidade:</label>
+                <input type="number" id="qtd_${i}">
+
+                <label>Valor unitário:</label>
+                <input type="number" id="valor_${i}" step="0.01">
+                
+                <br><br>
+            `;
+        }
+
+        div_vacinas.innerHTML = mensagem;
+    }
+
+</script>
+
+</html>
