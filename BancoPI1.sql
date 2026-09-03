@@ -40,4 +40,4 @@ INSERT INTO temperaturas (valor_temperatura, data_hora) VALUE
 
 SELECT * FROM temperaturas;
  
- -- ---
+ -- -----
