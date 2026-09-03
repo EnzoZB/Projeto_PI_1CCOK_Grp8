@@ -4,23 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Estoque</title>
+    <title>Calculadora de Risco de Estoque</title>
 </head>
 
 <body>
 
-    <h1>Calculadora de Estoque de Vacinas</h1>
+    <h1>Calculadora de Estoque e Risco de Vacinas</h1>
 
-    <h2>Quantos tipos de vacina você possui?</h2>
+    <h2>Quantos lotes de vacina estão na câmara fria?</h2>
 
-    <input type="number" id="ipt_tipos">
-    <button onclick="criarCampos()">Adicionar</button>
+    <input type="number" id="ipt_lotes">
+    <button onclick="criarCampos()">Gerar Lotes</button>
 
-    <div id="div_vacinas"></div>
+    <div id="div_lotes"></div>
 
     <br>
 
-    <button onclick="calcularEstoque()">Calcular estoque</button>
+    <button onclick="calcularEstoque()">Calcular Estoque em Risco</button>
 
     <h2 id="resultado"></h2>
 
@@ -29,28 +29,47 @@
 <script>
 
     function criarCampos() {
-
-        let tipos = Number(ipt_tipos.value);
+        let lotes = Number(ipt_lotes.value);
         let mensagem = "";
 
-        for (let i = 1; i <= tipos; i++) {
-
+        for (let i = 1; i <= lotes; i++) {
             mensagem += `
-                <h3>Vacina ${i}</h3>
+                <h3>Lote ${i}</h3>
 
-                <label>Quantidade:</label>
+                <label>Nome da Vacina:</label>
+                <input type="text" id="nome_${i}" placeholder="Ex: Gripe, COVID">
+
+                <label>Qtd. Frascos:</label>
                 <input type="number" id="qtd_${i}">
 
-                <label>Valor unitário:</label>
+                <label>Valor por Frasco (R$):</label>
                 <input type="number" id="valor_${i}" step="0.01">
                 
                 <br><br>
             `;
         }
 
-        div_vacinas.innerHTML = mensagem;
+        div_lotes.innerHTML = mensagem;
+    }
+
+    function calcularEstoque() {
+        let lotes = Number(ipt_lotes.value);
+        let totalFrascos = 0;
+        let valorTotalRisco = 0;
+
+        for (let i = 1; i <= lotes; i++) {
+            let qtd = Number(document.getElementById(`qtd_${i}`).value);
+            let valor = Number(document.getElementById(`valor_${i}`).value);
+
+            totalFrascos += qtd;
+            valorTotalRisco += (qtd * valor);
+        }
+
+        resultado.innerHTML = `
+            Total de Frascos Armazenados: ${totalFrascos} unidades.<br>
+            Valor Total do Estoque em Risco: R$ ${valorTotalRisco.toFixed(2)}
+        `;
     }
 
 </script>
-
 </html>
