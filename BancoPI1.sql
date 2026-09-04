@@ -21,23 +21,20 @@ INSERT INTO usuarios (nome_completo, cpf, email, senha) VALUES
 ('Carlos Eduardo', '98765432100', 'carlos.eduardo@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjOL.eTYR.k7Yx1z3x.a4aG4q5g5a5a5a5'),
 ('Mariana Costa', '45678912300', 'mariana.costa@email.com', '$2a$12$eImiTXuWVxfM37uY4JANjOL.eTYR.k7Yx1z3x.a4aG4q5g5a5a5a5');
 
-
-SELECT * FROM usuarios;
-UPDATE usuarios SET senha = '12345678' WHERE id_usuario BETWEEN 1 AND 3;
+UPDATE usuarios 
+SET senha = '12345678' 
+WHERE id_usuario BETWEEN 1 AND 3;
 
 INSERT INTO temperaturas (valor_temperatura, data_hora) VALUES
 (4.10, '2026-09-03 08:00:00'),
 (4.30, '2026-09-03 09:00:00'),
 (5.80, '2026-09-03 10:00:00'),
 (9.20, '2026-09-03 11:00:00'),
-(3.50, '2026-09-03 12:00:00');
-
-SELECT * FROM temperaturas;
-
-
-INSERT INTO temperaturas (valor_temperatura, data_hora) VALUE
+(3.50, '2026-09-03 12:00:00'),
 (5.43, NOW());
 
-SELECT * FROM temperaturas;
- 
- -- -------
+SELECT * FROM usuarios;
+
+SELECT * FROM temperaturas ORDER BY data_hora DESC;
+
+SELECT * FROM temperaturas WHERE valor_temperatura NOT BETWEEN 2.00 AND 8.00;
