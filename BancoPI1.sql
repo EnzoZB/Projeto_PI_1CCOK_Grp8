@@ -38,3 +38,17 @@ SELECT * FROM usuarios;
 SELECT * FROM temperaturas ORDER BY data_hora DESC;
 
 SELECT * FROM temperaturas WHERE valor_temperatura NOT BETWEEN 2.00 AND 8.00;
+
+INSERT INTO temperaturas (valor_temperatura, data_hora) VALUES
+(1.50, '2026-09-04 01:00:00'),
+(0.80, '2026-09-04 02:00:00'),
+(9.50, '2026-09-04 03:00:00'),
+(11.20, '2026-09-04 04:00:00');
+
+SELECT id_temperatura, valor_temperatura, data_hora,
+    CASE 
+        WHEN valor_temperatura < 2 THEN 'temperatura muito baixa'
+        WHEN valor_temperatura > 8 THEN 'temperatura muito alta'
+        ELSE 'temperatura normal'
+    END AS status_temperatura
+FROM temperaturas;
