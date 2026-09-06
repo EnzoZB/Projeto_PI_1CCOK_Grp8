@@ -5,252 +5,415 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Estoque</title>
+    <link rel="stylesheet" href="style2.css">
 </head>
 
 <body>
 
-    <h1>Calculadora de Estoque de Vacinas</h1>
+    <div class="container">
+        <h1>Calculadora de Estoque de Vacinas</h1>
 
-    <h2>Quantos tipos de vacina você possui?</h2>
+        <h2>Quantos tipos de vacina você possui?</h2>
 
-    <input type="number" id="ipt_tipos">
-    <button onclick="criarCampos()">Adicionar</button>
+        <div class="input-group-top">
+            <input type="number" id="ipt_tipos" class="ipt-tipos" placeholder="1 a 5">
+            <button onclick="criarCampos()" class="btn-primary">Adicionar</button>
+        </div>
 
-    <div id="div_vacinas"></div>
+        <div id="div_vacinas" class="cards-container"></div>
 
-    <br>
+        <button onclick="calcularEstoque()" class="btn-primary btn-calc">Calcular estoque</button>
 
-    <button onclick="calcularEstoque()">Calcular estoque</button>
+        <div id="resultado"></div>
+    </div>
 
-    <h2 id="resultado"></h2>
+    <script>
+        function criarCampos() {
+
+            let tipos = Number(ipt_tipos.value);
+            let mensagem = "";
+
+            if (tipos == 1) {
+
+                mensagem = `
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 1</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_1" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_1" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else if (tipos == 2) {
+
+                mensagem = `
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 1</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_1" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_1" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 2</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_2" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_2" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else if (tipos == 3) {
+
+                mensagem = `
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 1</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_1" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_1" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 2</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_2" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_2" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 3</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_3" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_3" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else if (tipos == 4) {
+
+                mensagem = `
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 1</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_1" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_1" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 2</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_2" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_2" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 3</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_3" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_3" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 4</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_4" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_4" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else if (tipos == 5) {
+
+                mensagem = `
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 1</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_1" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_1" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 2</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_2" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_2" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 3</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_3" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_3" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 4</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_4" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_4" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vaccine-card">
+                        <div class="card-header">Vacina 5</div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_5" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário:</label>
+                                <input type="number" id="valor_5" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else {
+
+                mensagem = `<p class="error-message">Digite uma quantidade entre 1 e 5.</p>`;
+
+            }
+
+            div_vacinas.innerHTML = mensagem;
+        }
+
+
+        function calcularEstoque() {
+
+    let tipos = Number(ipt_tipos.value);
+    
+    let totalQuantidade = 0;
+    let totalValor = 0;
+    let resumo = "";
+
+    if (tipos == 1) {
+
+        let qtd1 = Number(document.getElementById("qtd_1").value);
+        let valor1 = Number(document.getElementById("valor_1").value);
+        let total1 = qtd1 * valor1;
+
+        totalQuantidade = qtd1;
+        totalValor = total1;
+
+        resumo = `<div class="result-item"><b>Vacina 1:</b> ${qtd1} unidades | <b>Valor Unitário:</b> R$ ${valor1.toFixed(2)} | <b>Total:</b> R$ ${total1.toFixed(2)}</div>`;
+
+    } else if (tipos == 2) {
+
+        let qtd1 = Number(document.getElementById("qtd_1").value);
+        let valor1 = Number(document.getElementById("valor_1").value);
+        let total1 = qtd1 * valor1;
+
+        let qtd2 = Number(document.getElementById("qtd_2").value);
+        let valor2 = Number(document.getElementById("valor_2").value);
+        let total2 = qtd2 * valor2;
+
+        totalQuantidade = qtd1 + qtd2;
+        totalValor = total1 + total2;
+
+        resumo = `
+            <div class="result-item"><b>Vacina 1:</b> ${qtd1} unidades | <b>Valor Unitário:</b> R$ ${valor1.toFixed(2)} | <b>Total:</b> R$ ${total1.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 2:</b> ${qtd2} unidades | <b>Valor Unitário:</b> R$ ${valor2.toFixed(2)} | <b>Total:</b> R$ ${total2.toFixed(2)}</div>
+        `;
+
+    } else if (tipos == 3) {
+
+        let qtd1 = Number(document.getElementById("qtd_1").value);
+        let valor1 = Number(document.getElementById("valor_1").value);
+        let total1 = qtd1 * valor1;
+
+        let qtd2 = Number(document.getElementById("qtd_2").value);
+        let valor2 = Number(document.getElementById("valor_2").value);
+        let total2 = qtd2 * valor2;
+
+        let qtd3 = Number(document.getElementById("qtd_3").value);
+        let valor3 = Number(document.getElementById("valor_3").value);
+        let total3 = qtd3 * valor3;
+
+        totalQuantidade = qtd1 + qtd2 + qtd3;
+        totalValor = total1 + total2 + total3;
+
+        resumo = `
+            <div class="result-item"><b>Vacina 1:</b> ${qtd1} unidades | <b>Valor Unitário:</b> R$ ${valor1.toFixed(2)} | <b>Total:</b> R$ ${total1.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 2:</b> ${qtd2} unidades | <b>Valor Unitário:</b> R$ ${valor2.toFixed(2)} | <b>Total:</b> R$ ${total2.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 3:</b> ${qtd3} unidades | <b>Valor Unitário:</b> R$ ${valor3.toFixed(2)} | <b>Total:</b> R$ ${total3.toFixed(2)}</div>
+        `;
+
+    } else if (tipos == 4) {
+
+        let qtd1 = Number(document.getElementById("qtd_1").value);
+        let valor1 = Number(document.getElementById("valor_1").value);
+        let total1 = qtd1 * valor1;
+
+        let qtd2 = Number(document.getElementById("qtd_2").value);
+        let valor2 = Number(document.getElementById("valor_2").value);
+        let total2 = qtd2 * valor2;
+
+        let qtd3 = Number(document.getElementById("qtd_3").value);
+        let valor3 = Number(document.getElementById("valor_3").value);
+        let total3 = qtd3 * valor3;
+
+        let qtd4 = Number(document.getElementById("qtd_4").value);
+        let valor4 = Number(document.getElementById("valor_4").value);
+        let total4 = qtd4 * valor4;
+
+        totalQuantidade = qtd1 + qtd2 + qtd3 + qtd4;
+        totalValor = total1 + total2 + total3 + total4;
+
+        resumo = `
+            <div class="result-item"><b>Vacina 1:</b> ${qtd1} unidades | <b>Valor Unitário:</b> R$ ${valor1.toFixed(2)} | <b>Total:</b> R$ ${total1.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 2:</b> ${qtd2} unidades | <b>Valor Unitário:</b> R$ ${valor2.toFixed(2)} | <b>Total:</b> R$ ${total2.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 3:</b> ${qtd3} unidades | <b>Valor Unitário:</b> R$ ${valor3.toFixed(2)} | <b>Total:</b> R$ ${total3.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 4:</b> ${qtd4} unidades | <b>Valor Unitário:</b> R$ ${valor4.toFixed(2)} | <b>Total:</b> R$ ${total4.toFixed(2)}</div>
+        `;
+
+    } else if (tipos == 5) {
+
+        let qtd1 = Number(document.getElementById("qtd_1").value);
+        let valor1 = Number(document.getElementById("valor_1").value);
+        let total1 = qtd1 * valor1;
+
+        let qtd2 = Number(document.getElementById("qtd_2").value);
+        let valor2 = Number(document.getElementById("valor_2").value);
+        let total2 = qtd2 * valor2;
+
+        let qtd3 = Number(document.getElementById("qtd_3").value);
+        let valor3 = Number(document.getElementById("valor_3").value);
+        let total3 = qtd3 * valor3;
+
+        let qtd4 = Number(document.getElementById("qtd_4").value);
+        let valor4 = Number(document.getElementById("valor_4").value);
+        let total4 = qtd4 * valor4;
+
+        let qtd5 = Number(document.getElementById("qtd_5").value);
+        let valor5 = Number(document.getElementById("valor_5").value);
+        let total5 = qtd5 * valor5;
+
+        totalQuantidade = qtd1 + qtd2 + qtd3 + qtd4 + qtd5;
+        totalValor = total1 + total2 + total3 + total4 + total5;
+
+        resumo = `
+            <div class="result-item"><b>Vacina 1:</b> ${qtd1} unidades | <b>Valor Unitário:</b> R$ ${valor1.toFixed(2)} | <b>Total:</b> R$ ${total1.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 2:</b> ${qtd2} unidades | <b>Valor Unitário:</b> R$ ${valor2.toFixed(2)} | <b>Total:</b> R$ ${total2.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 3:</b> ${qtd3} unidades | <b>Valor Unitário:</b> R$ ${valor3.toFixed(2)} | <b>Total:</b> R$ ${total3.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 4:</b> ${qtd4} unidades | <b>Valor Unitário:</b> R$ ${valor4.toFixed(2)} | <b>Total:</b> R$ ${total4.toFixed(2)}</div>
+            <div class="result-item"><b>Vacina 5:</b> ${qtd5} unidades | <b>Valor Unitário:</b> R$ ${valor5.toFixed(2)} | <b>Total:</b> R$ ${total5.toFixed(2)}</div>
+        `;
+
+    } else {
+
+        resultado.innerHTML = `<p class="error-message">Digite uma quantidade entre 1 e 5.</p>`;
+        return;
+
+    }
+
+    resultado.innerHTML = `
+        <div class="result-box">
+            ${resumo}
+            <div class="result-totals">
+                <p class="total-qty"><b>Quantidade total:</b> ${totalQuantidade}</p>
+                <p class="total-val"><b>Valor total do estoque:</b> R$ ${totalValor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            </div>
+        </div>
+    `;
+}
+
+    </script>
 
 </body>
-
-<script>
-
-    function criarCampos() {
-
-        let tipos = Number(ipt_tipos.value);
-        let mensagem = "";
-
-        if (tipos == 1) {
-
-            mensagem = `
-                <h3>Vacina 1</h3>
-
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_1">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_1" step="0.01">
-            `;
-
-        } else if (tipos == 2) {
-
-            mensagem = `
-                <h3>Vacina 1</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_1">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_1" step="0.01">
-
-                <h3>Vacina 2</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_2">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_2" step="0.01">
-            `;
-
-        } else if (tipos == 3) {
-
-            mensagem = `
-                <h3>Vacina 1</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_1">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_1" step="0.01">
-
-                <h3>Vacina 2</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_2">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_2" step="0.01">
-
-                <h3>Vacina 3</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_3">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_3" step="0.01">
-            `;
-
-        } else if (tipos == 4) {
-
-            mensagem = `
-                <h3>Vacina 1</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_1">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_1" step="0.01">
-
-                <h3>Vacina 2</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_2">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_2" step="0.01">
-
-                <h3>Vacina 3</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_3">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_3" step="0.01">
-
-                <h3>Vacina 4</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_4">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_4" step="0.01">
-            `;
-
-        } else if (tipos == 5) {
-
-            mensagem = `
-                <h3>Vacina 1</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_1">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_1" step="0.01">
-
-                <h3>Vacina 2</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_2">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_2" step="0.01">
-
-                <h3>Vacina 3</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_3">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_3" step="0.01">
-
-                <h3>Vacina 4</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_4">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_4" step="0.01">
-
-                <h3>Vacina 5</h3>
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_5">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_5" step="0.01">
-            `;
-
-        } else {
-
-            mensagem = "Digite uma quantidade entre 1 e 5.";
-
-        }
-
-        div_vacinas.innerHTML = mensagem;
-    }
-
-
-    function calcularEstoque() {
-
-        let tipos = Number(ipt_tipos.value);
-        let total = 0;
-
-        if (tipos == 1) {
-
-            let quantidade = Number(document.getElementById("qtd_1").value);
-            let valor = Number(document.getElementById("valor_1").value);
-
-            total = quantidade * valor;
-
-        } else if (tipos == 2) {
-
-            let qtd1 = Number(document.getElementById("qtd_1").value);
-            let valor1 = Number(document.getElementById("valor_1").value);
-
-            let qtd2 = Number(document.getElementById("qtd_2").value);
-            let valor2 = Number(document.getElementById("valor_2").value);
-
-            total = (qtd1 * valor1) + (qtd2 * valor2);
-
-        } else if (tipos == 3) {
-
-            let qtd1 = Number(document.getElementById("qtd_1").value);
-            let valor1 = Number(document.getElementById("valor_1").value);
-
-            let qtd2 = Number(document.getElementById("qtd_2").value);
-            let valor2 = Number(document.getElementById("valor_2").value);
-
-            let qtd3 = Number(document.getElementById("qtd_3").value);
-            let valor3 = Number(document.getElementById("valor_3").value);
-
-            total = (qtd1 * valor1) + (qtd2 * valor2) + (qtd3 * valor3);
-
-        } else if (tipos == 4) {
-
-            let qtd1 = Number(document.getElementById("qtd_1").value);
-            let valor1 = Number(document.getElementById("valor_1").value);
-
-            let qtd2 = Number(document.getElementById("qtd_2").value);
-            let valor2 = Number(document.getElementById("valor_2").value);
-
-            let qtd3 = Number(document.getElementById("qtd_3").value);
-            let valor3 = Number(document.getElementById("valor_3").value);
-
-            let qtd4 = Number(document.getElementById("qtd_4").value);
-            let valor4 = Number(document.getElementById("valor_4").value);
-
-            total = (qtd1 * valor1) + (qtd2 * valor2) + (qtd3 * valor3) + (qtd4 * valor4);
-
-        } else if (tipos == 5) {
-
-            let qtd1 = Number(document.getElementById("qtd_1").value);
-            let valor1 = Number(document.getElementById("valor_1").value);
-
-            let qtd2 = Number(document.getElementById("qtd_2").value);
-            let valor2 = Number(document.getElementById("valor_2").value);
-
-            let qtd3 = Number(document.getElementById("qtd_3").value);
-            let valor3 = Number(document.getElementById("valor_3").value);
-
-            let qtd4 = Number(document.getElementById("qtd_4").value);
-            let valor4 = Number(document.getElementById("valor_4").value);
-
-            let qtd5 = Number(document.getElementById("qtd_5").value);
-            let valor5 = Number(document.getElementById("valor_5").value);
-
-            total = (qtd1 * valor1) + (qtd2 * valor2) + (qtd3 * valor3) + (qtd4 * valor4) + (qtd5 * valor5);
-
-        } else {
-
-            resultado.innerHTML = "Digite uma quantidade entre 1 e 5.";
-            return;
-
-        }
-
-        resultado.innerHTML = `Valor total do estoque: R$ ${total.toFixed(2)}`;
-    }
-
-</script>
-
-// sdadaaas
 
 </html>

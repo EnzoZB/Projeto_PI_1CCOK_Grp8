@@ -5,84 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Estoque</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>Calculadora de Estoque de Vacinas</h1>
+    <div class="container">
+        <h1>Calculadora de Estoque de Vacinas</h1>
 
-    <h2>Quantos tipos de vacina você possui?</h2>
+        <h2>Quantos tipos de vacina você possui?</h2>
 
-    <input type="number" id="ipt_tipos">
-    <button onclick="criarCampos()">Adicionar</button>
+        <div class="input-group-top">
+            <input type="number" id="ipt_tipos" class="ipt-tipos" min="1" placeholder="Ex: 3">
+            <button onclick="criarCampos()" class="btn-primary">Adicionar</button>
+        </div>
 
-    <div id="div_vacinas"></div>
+        <div id="div_vacinas" class="cards-container"></div>
 
-    <br>
+        <button onclick="calcularEstoque()" class="btn-primary btn-calc">Calcular estoque</button>
 
-    <button onclick="calcularEstoque()">Calcular estoque</button>
+        <div id="resultado"></div>
+    </div>
 
-    <div id="resultado"></div>
+    <script>
+        function criarCampos() {
+            let tipos = Number(ipt_tipos.value);
+            let mensagem = "";
+// não mexer, n sei como ta funcionando.
+            for (let i = 1; i <= tipos; i++) {
+                mensagem += `
+                    <div class="vaccine-card">
+                        <div class="card-header">
+                            Vacina ${i}
+                        </div>
+                        <div class="card-body">
+                            <div class="field-group">
+                                <label>Quantidade:</label>
+                                <input type="number" id="qtd_${i}" placeholder="0">
+                            </div>
+                            <div class="field-group">
+                                <label>Valor unitário (R$):</label>
+                                <input type="number" id="valor_${i}" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            div_vacinas.innerHTML = mensagem;
+        }
+
+        function calcularEstoque() {
+            let tipos = Number(ipt_tipos.value);
+
+            if (tipos <= 0) return;
+
+            let totalQuantidade = 0;
+            let totalValor = 0;
+            let resumo = "";
+
+            for (let i = 1; i <= tipos; i++) {
+                let qtd = Number(document.getElementById(`qtd_${i}`).value);
+                let valor = Number(document.getElementById(`valor_${i}`).value);
+
+                let totalVacina = qtd * valor;
+
+                totalQuantidade += qtd;
+                totalValor += totalVacina;
+
+                resumo += `
+                    <div class="result-item">
+                        <b>Vacina ${i}:</b> ${qtd} unidades | <b>Valor Unitário:</b> R$ ${valor.toFixed(2)} | <b>Total:</b> R$ ${totalVacina.toFixed(2)}
+                    </div>
+                `;
+            }
+
+            resultado.innerHTML = `
+                <div class="result-box">
+                    ${resumo}
+                    <div class="result-totals">
+                        <p><b>Quantidade total:</b> <span class="highlight">${totalQuantidade.toLocaleString('pt-BR')}</span></p>
+                        <p><b>Valor total do estoque:</b> <span class="highlight">R$ ${totalValor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
 
 </body>
 
-<script>
-
-    function criarCampos() {
-        let tipos = Number(ipt_tipos.value);
-        let mensagem = "";
-
-        for (let i = 1; i <= tipos; i++) {
-            mensagem += `
-                <h3>Vacina ${i}</h3>
-
-                <label>Quantidade:</label>
-                <input type="number" id="qtd_${i}">
-
-                <label>Valor unitário:</label>
-                <input type="number" id="valor_${i}" step="0.01">
-                
-                <br><br>
-            `;
-        }
-
-        div_vacinas.innerHTML = mensagem;
-    }
-
-    function calcularEstoque() {
-        let tipos = Number(ipt_tipos.value);
-        
-        let totalQuantidade = 0;
-        let totalValor = 0;
-        let resumo = "";
-
-        for (let i = 1; i <= tipos; i++) {
-           
-            let qtd = Number(document.getElementById(`qtd_${i}`).value);
-            let valor = Number(document.getElementById(`valor_${i}`).value);
-            
-            let totalVacina = qtd * valor;
-
-           
-            totalQuantidade += qtd;
-            totalValor += totalVacina;
-
-            
-            resumo += `Vacina ${i}: ${qtd} unidades | Valor Unitário: R$ ${valor} | Total: R$ ${totalVacina}<br>`;
-        }
-
-      
-        resultado.innerHTML = `
-            <br>
-            ${resumo}
-            <br>
-            <b>Quantidade total:</b> ${totalQuantidade}<br>
-            <b>Valor total do estoque:</b> R$ ${totalValor}
-        `;
-    }
-
-</script>
-
 </html>
-
-ab
