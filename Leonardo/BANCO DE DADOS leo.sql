@@ -79,7 +79,7 @@ SELECT
     CONCAT('R$ ', prejuizo_total) AS 'Prejuízo Financeiro'
 FROM registro_descarte;
 
-SELECT 
+SELECT  
     nome_vacina AS 'Vacina',
     lote AS 'Lote',
     quantidade AS 'Quantidade em Estoque',
